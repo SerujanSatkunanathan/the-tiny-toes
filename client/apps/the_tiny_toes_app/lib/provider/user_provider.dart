@@ -1,18 +1,15 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
-class StorageService {
-  Future<void> saveusername(String username) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('username', username);
+class UserProvider with ChangeNotifier {
+  String? username;
+
+  void login(String user) {
+    username = user;
+    notifyListeners();
   }
 
-  Future<String?> getUsername() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getString('username');
-  }
-
-  Future<void> clearUsername() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.remove('username');
+  void logout() {
+    username = null;
+    notifyListeners();
   }
 }

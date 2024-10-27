@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:the_tiny_toes_app/Screens/user_page.dart';
+import 'package:the_tiny_toes_app/provider/user_provider.dart';
+import 'package:the_tiny_toes_app/service/storage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +16,25 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     TextEditingController _usernamecontroller = TextEditingController();
     TextEditingController _passwordcontroller = TextEditingController();
+    final _storageService = StorageService();
+
+    void login() {
+      if (_usernamecontroller.text == 'admin' &&
+          _passwordcontroller.text == 'password') {
+        Provider.of<UserProvider>(context, listen: false)
+            .login(_usernamecontroller.text);
+        _storageService.saveusername(_usernamecontroller.text);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const UserPage()));
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+            content: Text('Invalid username or password'),
+          ),
+        );
+      }
+    }
 
     final screensize = MediaQuery.of(context).size;
     return Scaffold(
@@ -61,10 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
               width: screensize.width * 0.8,
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const UserPage()));
+                    login();
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.black),
