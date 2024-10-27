@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_tiny_toes_app/Screens/login_screen.dart';
+import 'package:the_tiny_toes_app/network/user_jason.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -9,7 +10,22 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  final List<String> users = ["a", 'a', 'v', 'd'];
+  List<Map<String, dynamic>> users = [];
+  UserJason usernames = UserJason();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUsername();
+  }
+
+  Future<void> fetchUsername() async {
+    final fetchedUsername = await usernames.fetchUsers();
+    setState(() {
+      users = fetchedUsername;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,15 +57,23 @@ class _UserPageState extends State<UserPage> {
           IconButton(onPressed: () {}, icon: const Icon(Icons.person_2)),
         ],
       ),
-      body: ListView.builder(
-          itemCount: users.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: ListTile(
-                title: Text(users[index][0]),
-              ),
-            );
-          }),
+      body: users.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: users.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: ListTile(
+                    onTap: () {},
+                    title: Text(
+                      users[index]['name'],
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                );
+              }),
     );
   }
 }
