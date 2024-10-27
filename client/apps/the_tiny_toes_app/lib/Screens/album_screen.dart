@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:the_tiny_toes_app/Screens/album_screen.dart';
 import 'package:the_tiny_toes_app/Screens/login_screen.dart';
 import 'package:the_tiny_toes_app/network/user_jason.dart';
 
-class UserPage extends StatefulWidget {
-  const UserPage({super.key});
+class UserAlbumsScreen extends StatefulWidget {
+  final int userId;
+  final String userName;
+
+  const UserAlbumsScreen(
+      {Key? key, required this.userId, required this.userName})
+      : super(key: key);
 
   @override
-  State<UserPage> createState() => _UserPageState();
+  State<UserAlbumsScreen> createState() => _UserAlbumsScreenState();
 }
 
-class _UserPageState extends State<UserPage> {
-  List<Map<String, dynamic>> users = [];
-  UserJason usernames = UserJason();
+class _UserAlbumsScreenState extends State<UserAlbumsScreen> {
+  List<Map<String, dynamic>> albums = [];
+  Album albumService = Album();
 
   @override
   void initState() {
     super.initState();
-    fetchUsername();
+    fetchAlbums();
   }
 
-  Future<void> fetchUsername() async {
-    final fetchedUsername = await usernames.fetchUsers();
+  Future<void> fetchAlbums() async {
+    final fetchedAlbums = await albumService.fetchAlbumsForUser(widget.userId);
     setState(() {
-      users = fetchedUsername;
+      albums = fetchedAlbums;
     });
   }
 
@@ -35,7 +39,7 @@ class _UserPageState extends State<UserPage> {
         foregroundColor: Colors.white,
         title: const Center(
             child: Text(
-          "USER",
+          "ALBUM",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
         )),
         leading: Padding(
@@ -54,34 +58,22 @@ class _UserPageState extends State<UserPage> {
           ),
         ),
         actions: [
-          const Text("user"),
+          Text(widget.userName),
           IconButton(onPressed: () {}, icon: const Icon(Icons.person_2)),
         ],
       ),
-      body: users.isEmpty
+      body: albums.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
-              itemCount: users.length,
+              itemCount: albums.length,
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserAlbumsScreen(
-                                  userId: users[index]['id'],
-                                  userName: users[index]['name'])));
-                    },
-                    title: Text(
-                      users[index]['name'],
-                      style: const TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
+                    title: Text(albums[index]['title']),
                   ),
                 );
-              }),
+              },
+            ),
     );
   }
 }
