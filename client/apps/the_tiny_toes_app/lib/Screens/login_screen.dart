@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_tiny_toes_app/Screens/user_page.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,8 +11,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController username_controller = TextEditingController();
-    TextEditingController password_controller = TextEditingController();
+    TextEditingController _usernamecontroller = TextEditingController();
+    TextEditingController _passwordcontroller = TextEditingController();
 
     final screensize = MediaQuery.of(context).size;
     return Scaffold(
@@ -32,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 children: [
                   TextFormField(
-                    controller: username_controller,
+                    controller: _usernamecontroller,
                     decoration: const InputDecoration(
                         label: Text("Username"),
                         hintText: "username",
@@ -42,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 20,
                   ),
                   TextFormField(
-                    controller: password_controller,
+                    controller: _passwordcontroller,
                     obscureText: true,
                     decoration: const InputDecoration(
                         label: Text("Password"),
@@ -59,7 +60,12 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
               width: screensize.width * 0.8,
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UserPage()));
+                  },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.black),
                     foregroundColor: MaterialStateProperty.all(Colors.white),
