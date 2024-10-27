@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_tiny_toes_app/Screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +15,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const MaterialApp(
+      home: LoginScreen(),
+    );
   }
 }
