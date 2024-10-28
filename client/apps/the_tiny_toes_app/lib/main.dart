@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:the_tiny_toes_app/Screens/login_screen.dart';
 import 'package:the_tiny_toes_app/provider/album_provider.dart';
+import 'package:the_tiny_toes_app/provider/photo_provider.dart';
 import 'package:the_tiny_toes_app/provider/user_provider.dart';
 
 void main() {
@@ -10,6 +11,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => AlbumProvider()),
+        ChangeNotifierProvider(create: (_) => PhotoProvider())
       ],
       child: const MyApp(),
     ),

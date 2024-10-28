@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:the_tiny_toes_app/Screens/gallery_screen.dart';
 import 'package:the_tiny_toes_app/Screens/login_screen.dart';
 import 'package:the_tiny_toes_app/provider/album_provider.dart';
 
@@ -72,6 +73,15 @@ class UserAlbumsScreen extends StatelessWidget {
               final album = provider.albums[index];
               return Card(
                 child: ListTile(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GalleryPage(
+                                  albumId: album['id'],
+                                  userName: userName,
+                                )));
+                  },
                   leading: album['thumbnailUrl'] != null
                       ? Image.network(album['thumbnailUrl'],
                           width: 50, height: 50)
