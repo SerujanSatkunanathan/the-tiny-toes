@@ -26,10 +26,11 @@ class GalleryPage extends StatelessWidget {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         title: const Center(
-            child: Text(
-          "Gallery",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-        )),
+          child: Text(
+            "Gallery",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+          ),
+        ),
         leading: Padding(
           padding: const EdgeInsets.only(left: 10, top: 20),
           child: InkWell(
@@ -51,11 +52,14 @@ class GalleryPage extends StatelessWidget {
             style: const TextStyle(fontSize: 16),
           ),
           IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UserPage()));
-              },
-              icon: const Icon(Icons.person_2_rounded)),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserPage()),
+              );
+            },
+            icon: const Icon(Icons.person_2_rounded),
+          ),
         ],
       ),
       body: Consumer<PhotoProvider>(
@@ -105,12 +109,21 @@ class GalleryPage extends StatelessWidget {
                               child: CircularProgressIndicator());
                         },
                         errorBuilder: (context, error, stackTrace) {
-                          return const Center(
-                            child: Icon(
-                              Icons.broken_image,
-                              size: 48,
-                              color: Colors.grey,
-                            ),
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.broken_image,
+                                size: 48,
+                                color: Colors.grey,
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Image unavailable',
+                                style: TextStyle(color: Colors.grey[700]),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           );
                         },
                       ),
@@ -178,11 +191,14 @@ class FullscreenGalleryView extends StatelessWidget {
             style: const TextStyle(fontSize: 16),
           ),
           IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UserPage()));
-              },
-              icon: const Icon(Icons.person_2_rounded)),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserPage()),
+              );
+            },
+            icon: const Icon(Icons.person_2_rounded),
+          ),
         ],
       ),
       body: PhotoViewGallery.builder(
@@ -191,6 +207,14 @@ class FullscreenGalleryView extends StatelessWidget {
           return PhotoViewGalleryPageOptions(
             imageProvider: NetworkImage(photos[index]['url'] ?? ''),
             heroAttributes: PhotoViewHeroAttributes(tag: photos[index]['id']),
+            errorBuilder: (context, error, stackTrace) {
+              return const Center(
+                child: Text(
+                  'Failed to load image',
+                  style: TextStyle(color: Colors.white),
+                ),
+              );
+            },
           );
         },
         pageController: PageController(initialPage: initialIndex),
