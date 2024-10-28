@@ -29,8 +29,16 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         showDialog(
           context: context,
-          builder: (context) => const AlertDialog(
-            content: Text('Invalid username or password'),
+          builder: (context) => AlertDialog(
+            content: const Text('Invalid username or password'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
           ),
         );
       }

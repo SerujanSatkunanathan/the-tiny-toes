@@ -51,7 +51,7 @@ class UserAlbumsScreen extends StatelessWidget {
         ),
         actions: [
           Text(
-            "$userName",
+            userName,
             style: const TextStyle(fontSize: 16),
           ),
           IconButton(
@@ -97,6 +97,15 @@ class UserAlbumsScreen extends StatelessWidget {
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const UserPage()));
+        },
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        foregroundColor: Colors.white,
+        child: const Icon(Icons.arrow_back),
       ),
     );
   }

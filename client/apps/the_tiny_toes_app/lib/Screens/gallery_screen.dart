@@ -122,6 +122,14 @@ class GalleryPage extends StatelessWidget {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        foregroundColor: Colors.white,
+        child: const Icon(Icons.arrow_back),
+      ),
     );
   }
 }
@@ -188,6 +196,14 @@ class FullscreenGalleryView extends StatelessWidget {
         pageController: PageController(initialPage: initialIndex),
         scrollPhysics: const BouncingScrollPhysics(),
         backgroundDecoration: const BoxDecoration(color: Colors.black),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        foregroundColor: Colors.white,
+        child: const Icon(Icons.arrow_back),
       ),
     );
   }
