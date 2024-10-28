@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:the_tiny_toes_app/Screens/gallery_screen.dart';
 import 'package:the_tiny_toes_app/Screens/login_screen.dart';
+import 'package:the_tiny_toes_app/Screens/user_page.dart';
 import 'package:the_tiny_toes_app/provider/album_provider.dart';
 
 class UserAlbumsScreen extends StatelessWidget {
@@ -54,7 +55,11 @@ class UserAlbumsScreen extends StatelessWidget {
             style: const TextStyle(fontSize: 16),
           ),
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.person_2_rounded)),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserPage()));
+              },
+              icon: const Icon(Icons.person_2_rounded)),
         ],
       ),
       body: Consumer<AlbumProvider>(

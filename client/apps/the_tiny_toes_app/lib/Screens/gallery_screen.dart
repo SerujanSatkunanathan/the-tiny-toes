@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:the_tiny_toes_app/Screens/login_screen.dart';
+import 'package:the_tiny_toes_app/Screens/user_page.dart';
 import 'package:the_tiny_toes_app/provider/photo_provider.dart';
 
 class GalleryPage extends StatelessWidget {
@@ -50,7 +51,11 @@ class GalleryPage extends StatelessWidget {
             style: const TextStyle(fontSize: 16),
           ),
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.person_2_rounded)),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserPage()));
+              },
+              icon: const Icon(Icons.person_2_rounded)),
         ],
       ),
       body: Consumer<PhotoProvider>(
@@ -82,6 +87,7 @@ class GalleryPage extends StatelessWidget {
                         builder: (context) => FullscreenGalleryView(
                           photos: provider.photos,
                           initialIndex: index,
+                          userName: userName,
                         ),
                       ),
                     );
@@ -123,18 +129,53 @@ class GalleryPage extends StatelessWidget {
 class FullscreenGalleryView extends StatelessWidget {
   final List<Map<String, dynamic>> photos;
   final int initialIndex;
+  final String userName;
 
-  const FullscreenGalleryView({
-    Key? key,
-    required this.photos,
-    required this.initialIndex,
-  }) : super(key: key);
+  const FullscreenGalleryView(
+      {Key? key,
+      required this.photos,
+      required this.initialIndex,
+      required this.userName})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Photo View"),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        title: const Center(
+            child: Text(
+          "Gallery",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        )),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 10, top: 20),
+          child: InkWell(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+              );
+            },
+            child: const Text(
+              "Logout",
+              style: TextStyle(color: Colors.deepOrange),
+            ),
+          ),
+        ),
+        actions: [
+          Text(
+            userName,
+            style: const TextStyle(fontSize: 16),
+          ),
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserPage()));
+              },
+              icon: const Icon(Icons.person_2_rounded)),
+        ],
       ),
       body: PhotoViewGallery.builder(
         itemCount: photos.length,
