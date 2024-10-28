@@ -13,6 +13,8 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   List<Map<String, dynamic>> users = [];
   UserJason usernames = UserJason();
+  bool isLoading = true;
+  String? errorMessage;
 
   @override
   void initState() {
@@ -21,10 +23,18 @@ class _UserPageState extends State<UserPage> {
   }
 
   Future<void> fetchUsername() async {
-    final fetchedUsername = await usernames.fetchUsers();
-    setState(() {
-      users = fetchedUsername;
-    });
+    try {
+      final fetchedUsername = await usernames.fetchUsers();
+      setState(() {
+        users = fetchedUsername;
+        isLoading = false;
+      });
+    } catch (error) {
+      setState(() {
+        errorMessage = 'Failed to load users: ${error.toString()}';
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -42,7 +52,7 @@ class _UserPageState extends State<UserPage> {
           padding: const EdgeInsets.only(left: 10, top: 20),
           child: InkWell(
             onTap: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginScreen()),
               );
@@ -54,34 +64,44 @@ class _UserPageState extends State<UserPage> {
           ),
         ),
         actions: [
-          const Text("user"),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.person_2)),
+          const Text(
+            "user",
+            style: TextStyle(fontSize: 20),
+          ),
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.person_2_rounded)),
         ],
       ),
-      body: users.isEmpty
+      body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: users.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
+          : errorMessage != null
+              ? Center(child: Text(errorMessage!))
+              : ListView.builder(
+                  itemCount: users.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
                               builder: (context) => UserAlbumsScreen(
-                                  userId: users[index]['id'],
-                                  userName: users[index]['name'])));
-                    },
-                    title: Text(
-                      users[index]['name'],
-                      style: const TextStyle(
-                        fontSize: 20,
+                                userId: users[index]['id'],
+                                userName: users[index]['name'],
+                              ),
+                            ),
+                          );
+                        },
+                        title: Text(
+                          users[index]['name'],
+                          style: const TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              }),
+                    );
+                  },
+                ),
     );
   }
 }
