@@ -2,10 +2,12 @@
 
 In this app user can login and view how many users are available and based on user name they will have albums and that albums will have some photos and after the successful loging the user can view the photos.
 
+
 **Flutter and Dart version I used to build this application.**
 
 Flutter version -  3.24.3
 Dart version - 3.5.3
+
 
 **Features**
 
@@ -27,11 +29,17 @@ After that install the dependencies.
   
 After that you can run the application.
 
+
+
+
 **Login Credentials**
 
 username : admin
 
 password : password
+
+
+
 
 
 ScreenShot Samples
